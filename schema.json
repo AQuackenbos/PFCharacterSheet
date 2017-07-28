@@ -1,0 +1,223 @@
+{
+	"name": "Seamus Kalindar",
+	"classes": {
+		"sorcerer": {
+			"name": "Sorcerer",
+			"caster": true,
+			"arcane": true,
+			"divine": true,
+			"level": 14,
+			"skills": 2,
+			"bab": 0.5
+		}
+	},
+	"level": {
+		"total": 14,
+		"bonuses": {
+			"cha": 3,
+			"skills": 4
+		}
+	},
+	"stats": {
+		"str": 10,
+		"dex": 12,
+		"con": 14,
+		"wis": 13,
+		"int": 12,
+		"cha": 17
+	},
+	"race": {
+		"name": "Human",
+		"bonuses": {
+			"cha": 2,
+			"skills": 1,
+			"size": 0
+		}
+	},
+	"saves": {
+		"reflex": 4,
+		"fortitude": 4,
+		"will": 9
+	},
+	"feats": [
+		{
+			"level": 13,
+			"granter": "Bloodline",
+			"name": "Great Fortitude",
+			"description": "",
+			"bonuses": {
+				"type": "unique_great_fortitude",
+				"fortitude": 2
+			}
+		},
+		{
+			"level": 1,
+			"granter": "Human",
+			"name": "Combat Casting",
+			"bonuses": {
+				"type": "unique_combat_casting",
+				"concentration": 4
+			}
+		},
+		{
+			"level": 3,
+			"name": "Skill Focus (Knowledge (planes))",
+			"bonuses": {
+				"type": "unique_skill_focus_knowledge_planes",
+				"knowledge_planes": 3
+			}
+		},
+		{
+			"level": 9,
+			"name": "Magical Aptitude",
+			"bonuses": {
+				"type": "unique_magical_aptitude",
+				"spellcraft": "{spellcraft.ranks > 10 ? 4 : 2}",
+				"use_magic_device": "{use_magic_device.ranks > 10 ? 4 : 2}"
+			}
+		}
+	],
+	"others": {
+		"bloodline": {
+			"name": "Bloodline: Stormblood",
+			"bonuses": {
+				"type": "bloodline",
+				"use_magic_device": {
+					"amount": "{caster_level / 2}",
+					"condition": "to activate spell trigger and spell completion items with divine spells"
+				}
+			},
+			"spells": [
+				{
+					"level": 3,
+					"name": "Channel Energy",
+					"damage": "{round(caster_level/2)}d8",
+					"uses": "{1 + cha}/day",
+					"saves": {
+						"will": "{10 + (caster_level/2) + cha}"
+					}
+				}
+			]
+		},
+		"bloodline_eldritch_1": {
+			"name": "Bloodline: Djinni",
+			"bonuses": {
+				"type": "bloodline_eldritch_1",
+				"resistance": {
+					"type": "electricity",
+					"amount": 20
+				}
+			},
+			"spells": [
+				{
+					"level": 1,
+					"name": "Electricity Ray",
+					"damage": "{(caster_level-2)/2}d6 + 5",
+					"uses": "{caster_level-2}/day"
+				}
+			]
+		}
+	},
+	"gear": [
+		{
+			"name": "Headband of Charisma +4",
+			"bonuses": {
+				"type": "item",
+				"cha": 4
+			}
+		},
+		{
+			"name": "Belt of Mighty Constitution +2",
+			"bonuses": {
+				"type": "item",
+				"con": 2
+			}
+		},
+		{
+			"name": "Shocking Robe",
+			"bonuses": {
+				"type": "item",
+				"resistance": {
+					"type": "electricity",
+					"amount": 5
+				},
+				"caster_level": {
+					"amount": 1,
+					"affects": {
+						"keywords": ["electricity"]
+					}
+				}
+			},
+			"spells": [
+				{
+					"name": "Thunderburst",
+					"school": "Abjuration",
+					"description": "",
+					"range": 20,
+					"target": "burst",
+					"keywords": ["electricity"],
+					"damage": "2d6",
+					"saves": [
+						{
+							"type": "reflex",
+							"dc": 16,
+							"description": "half"
+						}
+					],
+					"uses": "1/day",
+					"resistance": true
+				}
+			]
+		},
+		{
+			"name": "Shoes of Lightning Leaping",
+			"spells": [
+				{
+					"name": "Lightning Leap",
+					"school": "Transmutation",
+					"description": "",
+					"range": 50,
+					"keywords": ["electricity"],
+					"damage": "6d6",
+					"uses": "1/day",
+					"url": "",
+					"resistance": true
+				}
+			]
+		},
+		{
+			"name": "Cloak of Resistance +5",
+			"bonuses": {
+				"type": "item",
+				"reflex": 5,
+				"fortitude": 5,
+				"will": 5
+			}
+		},
+		{
+			"name": "Symbol of Healing (Permanent)",
+			"spells": [
+				{
+					"name": "Symbol of Healing",
+					"url": "http://www.d20pfsrd.com/magic/all-spells/s/symbol-of-healing/",
+					"school": "conjuration",
+					"keywords": ["healing"],
+					"resistance": true,
+					"components": "V,S,M",
+					"component_cost": 500,
+					"saves": [
+						{
+							"type": "will",
+							"dc": 17,
+							"description": "half"
+						}
+					],
+					"damage": "2d8+10",
+					"description": "",
+					"duration": "{10*caster_level} minutes"
+				}
+			]
+		}
+	]
+	
+}
