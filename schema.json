@@ -5,17 +5,10 @@
 			"name": "Sorcerer",
 			"caster": true,
 			"arcane": true,
-			"divine": true,
+			"divine": false,
 			"level": 14,
 			"skills": 2,
 			"bab": 0.5
-		}
-	},
-	"level": {
-		"total": 14,
-		"bonuses": {
-			"cha": 3,
-			"skills": 4
 		}
 	},
 	"stats": {
@@ -25,6 +18,13 @@
 		"wis": 13,
 		"int": 12,
 		"cha": 17
+	},
+	"level": {
+		"total": 14,
+		"bonuses": {
+			"cha": 3,
+			"skills": 4
+		}
 	},
 	"race": {
 		"name": "Human",
@@ -39,6 +39,9 @@
 		"fortitude": 4,
 		"will": 9
 	},
+	"skills": {
+
+	},
 	"feats": [
 		{
 			"level": 13,
@@ -46,7 +49,6 @@
 			"name": "Great Fortitude",
 			"description": "",
 			"bonuses": {
-				"type": "unique_great_fortitude",
 				"fortitude": 2
 			}
 		},
@@ -55,7 +57,6 @@
 			"granter": "Human",
 			"name": "Combat Casting",
 			"bonuses": {
-				"type": "unique_combat_casting",
 				"concentration": 4
 			}
 		},
@@ -63,7 +64,6 @@
 			"level": 3,
 			"name": "Skill Focus (Knowledge (planes))",
 			"bonuses": {
-				"type": "unique_skill_focus_knowledge_planes",
 				"knowledge_planes": 3
 			}
 		},
@@ -71,19 +71,17 @@
 			"level": 9,
 			"name": "Magical Aptitude",
 			"bonuses": {
-				"type": "unique_magical_aptitude",
-				"spellcraft": "{spellcraft.ranks > 10 ? 4 : 2}",
-				"use_magic_device": "{use_magic_device.ranks > 10 ? 4 : 2}"
+				"spellcraft": "|{{spellcraft.ranks}} > 10 ? 4 : 2|",
+				"use_magic_device": "|{{use_magic_device.ranks}} > 10 ? 4 : 2|"
 			}
 		}
 	],
 	"others": {
-		"bloodline": {
-			"name": "Bloodline: Stormblood",
+		"sanctified_sorcerer": {
+			"name": "Sanctified Sorcerer",
 			"bonuses": {
-				"type": "bloodline",
 				"use_magic_device": {
-					"amount": "{caster_level / 2}",
+					"amount": "|{{caster_level}} / 2|",
 					"condition": "to activate spell trigger and spell completion items with divine spells"
 				}
 			},
@@ -92,9 +90,11 @@
 					"level": 3,
 					"name": "Channel Energy",
 					"damage": "{round(caster_level/2)}d8",
-					"uses": "{1 + cha}/day",
+					"uses": "|1 + {{cha}}|/day",
 					"saves": {
-						"will": "{10 + (caster_level/2) + cha}"
+						"type": "will",
+						"dc": "|10 + {{caster_level}}/2 + {{cha}}|",
+						"description": "half"
 					}
 				}
 			]
@@ -112,8 +112,36 @@
 				{
 					"level": 1,
 					"name": "Electricity Ray",
-					"damage": "{(caster_level-2)/2}d6 + 5",
-					"uses": "{caster_level-2}/day"
+					"damage": "|({{sorcerer.level}}-2)/2|d6 + 5",
+					"uses": "|{{sorcerer.level}}-2|/day"
+				}
+			]
+		},
+		"bloodline": {
+			"name": "Bloodline: Stormblood",
+			"spells": [
+				{
+					"level": 1,
+					"name": "Thunderstaff",
+					"cast_time": "1 Standard Action",
+					"description": "",
+					"target": "1 weapon",
+					"duration": "|{{caster_level}} / 2| or |{{caster_level}} / 4| rounds",
+					"uses": "|3+{{cha}}|/day"
+				},
+				{
+					"level": 9,
+					"name": "Thunderbolt",
+					"keywords": ["electricity","sonic"],
+					"saves": [
+						{
+							"type": "reflex",
+							"dc": "|10 + ({{sorcerer.level}}/2) + {{cha}}|",
+							"description": "half"
+						}
+					],
+					"description": "",
+					"uses": "|floor({{sorcerer.level}}/9) + floor({{sorcerer.level}}/20)|/day"
 				}
 			]
 		}
@@ -203,8 +231,9 @@
 					"school": "conjuration",
 					"keywords": ["healing"],
 					"resistance": true,
-					"components": "V,S,M",
+					"components": ["V","S","M"],
 					"component_cost": 500,
+					"material": "A symbol or something",
 					"saves": [
 						{
 							"type": "will",
@@ -214,7 +243,7 @@
 					],
 					"damage": "2d8+10",
 					"description": "",
-					"duration": "{10*caster_level} minutes"
+					"duration": "|10*{{caster_level}}| minutes"
 				}
 			]
 		}
